@@ -1,0 +1,40 @@
+# TPS65217C Default Overides (examples)
+
+# Power Path - 2.5A AC and 1.3A USB current limits (max)
+i2cset -f -y 0 0x24 0x01 0x3e
+
+# Interrupts - mask AC and USB interrupts
+i2cset -f -y 0 0x24 0x02 0x30
+
+# Charge Reg1 - 8hr charge timer instead of 6hr
+i2cset -f -y 0 0x24 0x04 0xf1
+
+# Charge Reg2 - 4.15V VTERM (up from 4.10V)
+i2cset -f -y 0 0x24 0x05 0x90
+
+# Charge Reg3 - 700mA ICHRG, 15% ITERM, 3.75V DPPM, 1HR PRCHG
+i2cset -f -y 0 0x24 0x06 0xdc
+
+# Status Reg - set OFF bit = 1 to make PMIC stay off after a shut down
+i2cset -f -y 0 0x24 0x0a 0x80
+
+# DCDC1 CTRL - set DDR rail to 1.35V (PMIC default 1.50V)
+i2cset -f -y 0 0x24 0x0b 0x73
+i2cset -f -y 0 0x24 0x0e 0x12
+i2cset -f -y 0 0x24 0x0b 0x73
+i2cset -f -y 0 0x24 0x0e 0x12
+
+# DCDC2 CTRL - set MPU rail to anything but defailt
+# no need - it is actively managed by cpufreq
+
+# DCDC3 CTRL - set CORE rail to 1.100V (u-boot over-volts to 1.125V)
+i2cset -f -y 0 0x24 0x0b 0x6d
+i2cset -f -y 0 0x24 0x10 0x08
+i2cset -f -y 0 0x24 0x0b 0x6d
+i2cset -f -y 0 0x24 0x10 0x08
+
+# Rails Enable - keep all rails on except LDO2 (VDD_3V3AUX -> Power LED)
+i2cset -f -y 0 0x24 0x0b 0x6b
+i2cset -f -y 0 0x24 0x16 0x3e
+i2cset -f -y 0 0x24 0x0b 0x6b
+i2cset -f -y 0 0x24 0x16 0x3e
